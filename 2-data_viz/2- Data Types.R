@@ -80,14 +80,11 @@ min(v3)
 
 sum(v3)
 
-
-
 #### Lists ####
 
 # In R, a list is a vector containing other objects which may be of different data types
 
 l1 <- list("apple",1 ,1.3, c(1:10))
-
 
 # We could also assign names to objects within a list
 
@@ -128,10 +125,9 @@ l1$this_is_vector
 
 data(mtcars)
 
-View(mtcars)
-
-
-
+mtcars %>% 
+  View() 
+  
 class(mtcars)
 
 colnames(mtcars)
@@ -165,7 +161,8 @@ mtcars[1, 1]
 mtcars[1,]
 mtcars[,1]
 
-mtcars[1:2,]
+mtcars[c(1,3),]
+
 mtcars[,1:2]
 
 # You can retrieve a specific column by name. 

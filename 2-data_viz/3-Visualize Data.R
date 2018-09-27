@@ -10,8 +10,6 @@ library(tidyverse)
 
 mpg
 
-mpg <- mpg
-
 # The course is based on questions. Here is the 1st :)
 
 # What does the relationship between engine size and fuel efficiency look like? Let's make some hypothesis
@@ -60,7 +58,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, alpha = class))
 
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class))
+  geom_point(mapping = aes(x = displ, y = hwy, shape = class))
 
 # Once you map an aesthetic, ggplot2 takes care of the rest. 
 # It selects a reasonable scale to use with the aesthetic
@@ -75,7 +73,7 @@ ggplot(data = mpg) +
 # Pay attention to where you put the specification.
 
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "????"))
+  geom_point(mapping = aes(x = displ, y = hwy, color = "red"))
 
 # Which variables in mpg are categorical? Which variables are continuous?
 
@@ -93,7 +91,7 @@ ggplot(data = mpg) +
 
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy)) +
-  facet_wrap(~ class, ncol = 1)
+  facet_wrap(~ class, nrow = 1)
 
 # To facet your plot on the combination of two variables use facet_grid()
 
