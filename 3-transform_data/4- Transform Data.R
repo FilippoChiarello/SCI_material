@@ -1,7 +1,7 @@
 library(nycflights13)
 library(tidyverse)
 
-#It is rare that you get the data in exactly the right form you need. 
+# It is rare that you get the data in exactly the right form you need. 
 
 #Often you’ll need to:create some new variables, summaries, rename the variables or reorder the observations in order to make the data a little easier to work with. 
 
@@ -21,7 +21,8 @@ View(flights)
 
 #filter() allows you to subset observations based on their values. The first argument is the name of the data frame. The second and subsequent arguments are the expressions that filter the data frame. 
 
-filter(flights, month == 1, day == 1)
+flights %>% 
+  filter( month == 1, day == 1)
 
 
 # dplyr functions never modify their inputs, so if you want to save the result, you’ll need to use the assignment operator, <-:
@@ -42,11 +43,15 @@ filter(flights, month = 1)
 
 # The following code finds all flights that departed in November or December:
 
-filter(flights, month == 11 | month == 12)
+filter(flights, month == 11 | month == 12) %>% 
+  View("test1")
 
 # This is wrong, cause it finds it finds all months that equal 11 | 12.
 
-filter(flights, month == 11 | 12)
+filter(flights, month == 11 | 12) 
+
+
+
 
 # A solution is to think that as "find all months inside a vector"
 
@@ -96,7 +101,7 @@ View(df)
 
 filter(df, x > 1)
 
-filter(df, is.na(x) | x > 1)
+filter(df, !is.na(x))
 
 
 df <- tibble(x = c(1, 2, 3), y = c(4, 5, 6))
@@ -122,9 +127,9 @@ arrange(flights, desc(arr_delay)) %>%
 ### Select #####
 
 
-new_variable <- flights %>% 
+flights %>% 
   select(year, month, day) %>% 
-  View(new_variable)
+  View()
 
 View(new_variable)
 
@@ -132,7 +137,10 @@ View(new_variable)
 
 select(flights, year:day)
 
-select(flights, -(year:day))
+
+flights %>% 
+  select(-year) %>% 
+  View()
 
 
 ### Mutate #######
@@ -149,8 +157,6 @@ flights_sml <- select(flights, year:day, ends_with("delay"), distance, air_time)
 
 flights_sml %>% 
 View()
-
-
 
 mutate(flights_sml, gain = arr_delay - dep_delay, speed = distance / air_time * 60) %>% 
   View()
@@ -188,7 +194,7 @@ by_dest <- group_by(flights, dest)
 
 # 2 for each destination, count the number of flights arriving there, the mean distance of these flights and the mean delay
 
-delay <- summarise(by_dest, count = n() , dist = mean(distance, na.rm = TRUE),delay = mean(arr_delay, na.rm = TRUE))
+delay <- summarise(by_dest, count = n() , dist = mean(distance, na.rm = TRUE) ,delay = mean(arr_delay, na.rm = TRUE))
 
 # 3 Chose the main destination, only the ones where arrives more than 20 flights. Honolulu is very far...
 
@@ -248,10 +254,7 @@ View(delays)
 ggplot(data = delays, mapping = aes(x = delay)) + 
   geom_histogram(binwidth = 10)
 
-# or better....
 
-ggplot(data = delays, mapping = aes(x = delay)) + 
-  geom_freqpoly(binwidth = 10)
 
 # Add the count information. We can get more insight if we draw a scatterplot of number of flights vs. average delay
 
@@ -264,7 +267,7 @@ View(delays)
 ggplot(data = delays, mapping = aes(x = n, y = delay)) + 
   geom_point(alpha = 1/10)
 
-# Rhere is much greater variation in the average delay when there are few flights. 
+# There is much greater variation in the average delay when there are few flights. 
 
 # The shape of this plot is very characteristic: whenever you plot a mean (or other summary) vs. group size, you’ll see that the variation decreases as the sample size increases.
 
